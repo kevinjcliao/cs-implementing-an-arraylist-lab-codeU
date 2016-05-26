@@ -63,6 +63,18 @@ public class MyArrayList<E> implements List<E> {
 			throw new IndexOutOfBoundsException();
 		}
 		// TODO: fill in the rest of this method
+    // Add the last element first.
+    if(index==size)
+        this.add(element);
+    else {
+        // Iterate towards the index. 
+        for (int x=size-1; x>index; x--) {
+            this.set(x, this.get(x-1));
+        }
+        // Index behaviour
+        this.set(index, element);
+        size++;
+    }
 	}
 
 	@Override
@@ -101,7 +113,7 @@ public class MyArrayList<E> implements List<E> {
 		return true;
 	}
 
-	@Override
+ 	@Override
 	public E get(int index) {
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException();
@@ -111,8 +123,15 @@ public class MyArrayList<E> implements List<E> {
 
 	@Override
 	public int indexOf(Object target) {
-		// TODO: fill in this method
-		return 0;
+    for (int iterator = 0; iterator < this.size; iterator++) {
+        E obj_iterator = this.get(iterator);
+        if (target!=null && obj_iterator.equals(target)) {
+            return iterator;
+        } else if (target==null && obj_iterator==null) {
+            return iterator;
+        }
+    }
+		return -1;
 	}
 
 	/** Checks whether an element of the array is the target.
@@ -183,7 +202,19 @@ public class MyArrayList<E> implements List<E> {
 	@Override
 	public E remove(int index) {
 		// TODO: fill in this method.
-		return null;
+    if(index<0 || index>size) {
+        System.out.println("Index is: ");
+        System.out.print(index);
+        System.out.println("Size is: ");
+        System.out.print(size);
+        throw new IndexOutOfBoundsException();
+    }
+    E to_return = this.get(index);
+    this.size--;
+    for (int x=index; x<size; x++) {
+        this.set(x, array[x+1]);
+    }
+		return to_return;
 	}
 
 	@Override
@@ -202,8 +233,9 @@ public class MyArrayList<E> implements List<E> {
 
 	@Override
 	public E set(int index, E element) {
-		// TODO: fill in this method.
-		return null;
+    E to_return = this.get(index);
+    this.array[index] = element;
+		return to_return;
 	}
 
 	@Override
